@@ -1554,8 +1554,12 @@ GameObject:
   - component: {fileID: 9084266719491942264}
   - component: {fileID: 70201145988275797}
   - component: {fileID: 8175995251297243821}
-  - component: {fileID: 4945483621846442310}
   - component: {fileID: 3611197771376929163}
+  - component: {fileID: 6183851085760615741}
+  - component: {fileID: 1464582277516598572}
+  - component: {fileID: 370643743772631585}
+  - component: {fileID: 6987897664835830313}
+  - component: {fileID: 3783536766309103359}
   m_Layer: 3
   m_Name: Remy
   m_TagString: Player
@@ -1661,37 +1665,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &4945483621846442310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3016740806574030790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1bb4f8d05830759193de9ee08864fdc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CharacterControl
-  lineRenderer: {fileID: 8959542567350881588, guid: d88d784e7f5a9ce85ae29b9c43fa684d, type: 3}
-  pointSpacing: 0.3
-  destinationThreshold: 0.5
-  cameraRotationSpeed: 200
-  samplesPerSegment: 4
-  simplifyTolerance: 1
-  isEditorMode: 0
-  roadPrefab: {fileID: 1842740404327457608, guid: 71c3fa9c668f580bbbd9e001810e8fef, type: 3}
-  navMeshSurface: {fileID: 0}
-  rayDistance: 1.2
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  audioFootsteps: {fileID: 5673191673869960422}
-  footprintSprite: {fileID: 21300000, guid: f1b6b900422ff5011aa25d850c9df353, type: 3}
-  leftFootTransform: {fileID: 1195232800322943023}
-  rightFootTransform: {fileID: 5691620480323800795}
-  footprintDuration: 5
-  maxWaypointDistance: 5
 --- !u!195 &3611197771376929163
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1714,6 +1687,94 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6183851085760615741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3016740806574030790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 965e295b237c42779f2dcac32469ba00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterPathDrawer
+  lineRenderer: {fileID: 8959542567350881588, guid: d88d784e7f5a9ce85ae29b9c43fa684d, type: 3}
+  pointSpacing: 0.3
+  samplesPerSegment: 4
+  simplifyTolerance: 1
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+--- !u!114 &1464582277516598572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3016740806574030790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19c2edd1655c40cf91a00dc0fb3070aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterMovement
+  destinationThreshold: 0.5
+  maxWaypointDistance: 5
+  rayDistance: 1.2
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 128
+  checkRadiusPadding: -0.05
+--- !u!114 &370643743772631585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3016740806574030790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9359c19f8024e01adfc1e9acb5e1a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimationFX
+  audioFootsteps: {fileID: 5673191673869960422}
+  footprintSprite: {fileID: 21300000, guid: f1b6b900422ff5011aa25d850c9df353, type: 3}
+  leftFootTransform: {fileID: 1195232800322943023}
+  rightFootTransform: {fileID: 5691620480323800795}
+  footprintDuration: 5
+--- !u!114 &6987897664835830313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3016740806574030790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc01194df4204882839689b1290bceae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterEditorMode
+  roadPrefab: {fileID: 1842740404327457608, guid: 71c3fa9c668f580bbbd9e001810e8fef, type: 3}
+  navMeshSurface: {fileID: 0}
+  samplesPerSegment: 4
+  simplifyTolerance: 1
+--- !u!114 &3783536766309103359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3016740806574030790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77c9a780b5a14f7fb137aa0dd2eb750a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterControl
+  isEditorMode: 0
+  cameraRotationSpeed: 200
 --- !u!1 &3042232369058772437
 GameObject:
   m_ObjectHideFlags: 0
