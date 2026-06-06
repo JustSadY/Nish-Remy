@@ -63,7 +63,7 @@ public class CharacterEditorMode : MonoBehaviour
         if (_actions.Player.Left.IsPressed()) _drawer.HandleDrawing(); 
         if (_actions.Player.Left.WasReleasedThisFrame() && _drawer.GetDrawnPoints().Count > 1)
         {
-            CreatePermanentRoad(_drawer.GetDrawnPoints());
+            CreatePermanentRoad(new List<Vector3>(_drawer.GetDrawnPoints()));
             _drawer.ClearDrawing();
         }
     }
