@@ -11,8 +11,9 @@ public class CharacterEditorMode : MonoBehaviour
     [SerializeField, Range(4, 32)] private int samplesPerSegment = 12;
     [SerializeField, Range(0f, 1f)] private float simplifyTolerance = 0.15f;
 
-    [Header("Editor Cursor Settings")]
-    [SerializeField] private Texture2D editorCursorTexture;
+    [Header("Editor Cursor Settings")] [SerializeField]
+    private Texture2D editorCursorTexture;
+
     [SerializeField] private Vector2 cursorHotspot = Vector2.zero;
 
     private GameObject _currentRoad;
@@ -34,32 +35,36 @@ public class CharacterEditorMode : MonoBehaviour
         ResetCursor();
     }
 
+    // Bu fonksiyon modlar arası geçişte imleci kesin olarak değiştirir
     public void SetEditorModeActive(bool isActive)
     {
         _isEditorActive = isActive;
+
         if (_isEditorActive && editorCursorTexture != null)
+        {
             Cursor.SetCursor(editorCursorTexture, cursorHotspot, CursorMode.Auto);
+        }
         else
+        {
             ResetCursor();
+        }
     }
 
-    private void ResetCursor() => Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+    private void ResetCursor()
+    {
+        // İmleci sistemin varsayılan (Default) haline döndürür
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+    }
 
     public void HandleEditorTick()
     {
         if (!_isEditorActive) return;
 
-        if (_actions.Player.Left.WasPressedThisFrame())
+        if (_actions.Player.Left.WasPressedThisFrame()) _drawer.ClearDrawing();
+        if (_actions.Player.Left.IsPressed()) _drawer.HandleDrawing();
+        if (_actions.Player.Left.WasReleasedThisFrame() && _drawer.GetDrawnPoints().Count > 1)
         {
-            _drawer.ClearDrawing();
-        }
-        else if (_actions.Player.Left.IsPressed())
-        {
-            _drawer.TrySamplePoint();
-        }
-        else if (_actions.Player.Left.WasReleasedThisFrame() && _drawer.GetDrawnPoints().Count > 1)
-        {
-            CreatePermanentRoad(_drawer.GetDrawnPoints());
+            CreatePermanentRoad(new List<Vector3>(_drawer.GetDrawnPoints()));
             _drawer.ClearDrawing();
         }
     }
@@ -73,6 +78,7 @@ public class CharacterEditorMode : MonoBehaviour
             StartCoroutine(RebuildNavMeshThenSpawn(points));
             return;
         }
+
         SpawnRoad(points);
     }
 
@@ -80,7 +86,7 @@ public class CharacterEditorMode : MonoBehaviour
     {
         List<Vector3> splinePoints = CatmullRomSpline.Build(points, samplesPerSegment, simplifyTolerance);
         _currentRoad = Instantiate(roadPrefab);
-
+        _currentRoad.transform.position = Vector3.zero;
         if (!_currentRoad.TryGetComponent(out NavMeshModifier modifier))
             modifier = _currentRoad.AddComponent<NavMeshModifier>();
 
@@ -96,8 +102,7 @@ public class CharacterEditorMode : MonoBehaviour
     private IEnumerator RebuildNavMeshThenSpawn(List<Vector3> points)
     {
         yield return null;
-        if (navMeshSurface != null)
-            yield return navMeshSurface.UpdateNavMesh(navMeshSurface.navMeshData);
+        if (navMeshSurface != null) yield return navMeshSurface.UpdateNavMesh(navMeshSurface.navMeshData);
         SpawnRoad(points);
     }
 

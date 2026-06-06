@@ -118,7 +118,6 @@ public class CharacterMovement : MonoBehaviour
         _isFollowingPath = false;
     }
 
-    // Uses the actual CapsuleCollider dimensions if present, falls back to NavMeshAgent values
     private bool IsSpaceAvailable(Vector3 targetPosition)
     {
         float radius = (_capsule != null ? _capsule.radius : _agent.radius) + checkRadiusPadding;
@@ -135,7 +134,6 @@ public class CharacterMovement : MonoBehaviour
         if (transform.position.y <= -50f) GameManager.Instance.EndGame();
     }
 
-    // Uses _agent.nextPosition to stay in sync with NavMeshAgent instead of setting transform directly
     private void AdjustToGround()
     {
         if (!_agent.enabled) return;
