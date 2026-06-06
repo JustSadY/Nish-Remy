@@ -12,7 +12,6 @@ public static class CatmullRomSpline
             return new List<Vector3>(rawPoints);
 
         List<Vector3> ctrl = DouglasPeucker(rawPoints, simplifyTolerance);
-
         ctrl.Insert(0, ctrl[0] + (ctrl[0] - ctrl[1]));
         ctrl.Add(ctrl[^1] + (ctrl[^1] - ctrl[^2]));
 
@@ -20,16 +19,9 @@ public static class CatmullRomSpline
 
         for (int i = 1; i < ctrl.Count - 2; i++)
         {
-            Vector3 p0 = ctrl[i - 1];
-            Vector3 p1 = ctrl[i];
-            Vector3 p2 = ctrl[i + 1];
-            Vector3 p3 = ctrl[i + 2];
-
+            Vector3 p0 = ctrl[i - 1], p1 = ctrl[i], p2 = ctrl[i + 1], p3 = ctrl[i + 2];
             for (int s = 0; s < samplesPerSegment; s++)
-            {
-                float t = s / (float)samplesPerSegment;
-                result.Add(Evaluate(p0, p1, p2, p3, t));
-            }
+                result.Add(Evaluate(p0, p1, p2, p3, s / (float)samplesPerSegment));
         }
 
         result.Add(ctrl[^2]);
@@ -50,13 +42,8 @@ public static class CatmullRomSpline
         var result = new List<Vector3>(ctrl.Count * samplesPerSegment);
 
         for (int i = 1; i < ctrl.Count - 2; i++)
-        {
             for (int s = 0; s < samplesPerSegment; s++)
-            {
-                float t = s / (float)samplesPerSegment;
-                result.Add(Evaluate(ctrl[i - 1], ctrl[i], ctrl[i + 1], ctrl[i + 2], t));
-            }
-        }
+                result.Add(Evaluate(ctrl[i - 1], ctrl[i], ctrl[i + 1], ctrl[i + 2], s / (float)samplesPerSegment));
 
         result.Add(ctrl[^2]);
         return result;
@@ -64,9 +51,7 @@ public static class CatmullRomSpline
 
     private static Vector3 Evaluate(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, float t)
     {
-        float t2 = t * t;
-        float t3 = t2 * t;
-
+        float t2 = t * t, t3 = t2 * t;
         return 0.5f * (
             (2f * p1) +
             (-p0 + p2) * t +
@@ -77,8 +62,7 @@ public static class CatmullRomSpline
 
     private static List<Vector3> DouglasPeucker(IReadOnlyList<Vector3> points, float tolerance)
     {
-        if (points.Count <= 2)
-            return new List<Vector3>(points);
+        if (points.Count <= 2) return new List<Vector3>(points);
 
         int maxIndex = 0;
         float maxDist = 0f;
@@ -86,15 +70,10 @@ public static class CatmullRomSpline
         for (int i = 1; i < points.Count - 1; i++)
         {
             float d = PerpendicularDistance(points[i], points[0], points[^1]);
-            if (d > maxDist)
-            {
-                maxDist = d;
-                maxIndex = i;
-            }
+            if (d > maxDist) { maxDist = d; maxIndex = i; }
         }
 
-        if (maxDist <= tolerance)
-            return new List<Vector3> { points[0], points[^1] };
+        if (maxDist <= tolerance) return new List<Vector3> { points[0], points[^1] };
 
         var left = DouglasPeucker(Slice(points, 0, maxIndex + 1), tolerance);
         var right = DouglasPeucker(Slice(points, maxIndex, points.Count), tolerance);
@@ -108,11 +87,9 @@ public static class CatmullRomSpline
     {
         Vector3 line = lineEnd - lineStart;
         float len = line.magnitude;
-
-        if (len < Mathf.Epsilon)
-            return Vector3.Distance(point, lineStart);
-
-        return Vector3.Cross(line, lineStart - point).magnitude / len;
+        return len < Mathf.Epsilon
+            ? Vector3.Distance(point, lineStart)
+            : Vector3.Cross(line, lineStart - point).magnitude / len;
     }
 
     private static List<Vector3> Slice(IReadOnlyList<Vector3> source, int start, int end)

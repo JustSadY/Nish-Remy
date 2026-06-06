@@ -32,16 +32,10 @@ public class CharacterControl : MonoBehaviour
     private void Start()
     {
         _drawer.OnPathCommitted += _movement.SetNewPath;
-
-        // --- KRİTİK GÜNCELLEME ---
-        // Oyun ilk açıldığında imleci editör modunun başlangıç durumuna göre ayarla
-        _editorMode.SetEditorModeActive(isEditorMode);
+        SetMode(isEditorMode);
     }
 
-    private void OnDestroy()
-    {
-        _drawer.OnPathCommitted -= _movement.SetNewPath;
-    }
+    private void OnDestroy() => _drawer.OnPathCommitted -= _movement.SetNewPath;
 
     private void OnEnable() => _actions?.Enable();
     private void OnDisable() => _actions?.Disable();
@@ -50,18 +44,8 @@ public class CharacterControl : MonoBehaviour
     {
         if (_isStopped) return;
 
-        // Mod Değiştirme (E Tuşu)
         if (_actions.Player.E.WasPressedThisFrame())
-        {
-            isEditorMode = !isEditorMode;
-            
-            _movement.ClearPath();
-            _drawer.ClearDrawing();
-            _fx.UpdateSpeedAnimation(0f);
-
-            // Mod değiştiğinde imleci güncelle
-            _editorMode.SetEditorModeActive(isEditorMode);
-        }
+            SetMode(!isEditorMode);
 
         HandleCameraRotation();
 
@@ -77,16 +61,23 @@ public class CharacterControl : MonoBehaviour
         }
     }
 
+    private void SetMode(bool editorMode)
+    {
+        isEditorMode = editorMode;
+        _movement.ClearPath();
+        _drawer.ClearDrawing();
+        _fx.UpdateSpeedAnimation(0f);
+        _drawer.IsEditorMode = isEditorMode;
+        _editorMode.SetEditorModeActive(isEditorMode);
+    }
+
     public void StopCharacter()
     {
         _isStopped = true;
         _movement.StopMoving();
         _drawer.ClearDrawing();
         _fx.UpdateSpeedAnimation(0f);
-        
-        // Karakter durdurulduğunda imleci de normale çek
-        _editorMode.SetEditorModeActive(false);
-        
+        SetMode(false);
         enabled = false;
     }
 

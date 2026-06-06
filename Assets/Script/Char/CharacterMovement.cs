@@ -13,8 +13,14 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private LayerMask obstacleLayers;
     [SerializeField] private float checkRadiusPadding = -0.05f;
 
+    [Header("Grounding Settings")]
+    [SerializeField] private float groundRaycastDistance = 1f;
+    [SerializeField] private float groundOffset = 0.05f;
+    [SerializeField] private float rotationDamping = 10f;
+
     private NavMeshAgent _agent;
     private Rigidbody _rb;
+    private CapsuleCollider _capsule;
     private readonly Queue<Vector3> _pathQueue = new();
     private bool _isFollowingPath;
 
@@ -25,6 +31,7 @@ public class CharacterMovement : MonoBehaviour
     {
         _agent = GetComponent<NavMeshAgent>();
         _rb = GetComponent<Rigidbody>();
+        _capsule = GetComponent<CapsuleCollider>();
         _rb.isKinematic = true;
     }
 
@@ -33,6 +40,7 @@ public class CharacterMovement : MonoBehaviour
         CheckFallState();
         HandleGravity();
         TickPathFollowing();
+        AdjustToGround();
     }
 
     public void SetNewPath(List<Vector3> points)
@@ -93,6 +101,7 @@ public class CharacterMovement : MonoBehaviour
         while (_pathQueue.TryDequeue(out Vector3 next))
         {
             if (Vector3.Distance(transform.position, next) > maxWaypointDistance) continue;
+
             if (!IsSpaceAvailable(next))
             {
                 ClearPath();
@@ -109,10 +118,12 @@ public class CharacterMovement : MonoBehaviour
         _isFollowingPath = false;
     }
 
+    // Uses the actual CapsuleCollider dimensions if present, falls back to NavMeshAgent values
     private bool IsSpaceAvailable(Vector3 targetPosition)
     {
-        float radius = _agent.radius + checkRadiusPadding;
-        float height = _agent.height;
+        float radius = (_capsule != null ? _capsule.radius : _agent.radius) + checkRadiusPadding;
+        float height = _capsule != null ? _capsule.height : _agent.height;
+
         Vector3 pointBottom = targetPosition + Vector3.up * radius;
         Vector3 pointTop = targetPosition + Vector3.up * (height - radius);
 
@@ -122,5 +133,19 @@ public class CharacterMovement : MonoBehaviour
     private void CheckFallState()
     {
         if (transform.position.y <= -50f) GameManager.Instance.EndGame();
+    }
+
+    // Uses _agent.nextPosition to stay in sync with NavMeshAgent instead of setting transform directly
+    private void AdjustToGround()
+    {
+        if (!_agent.enabled) return;
+
+        Ray ray = new Ray(transform.position + Vector3.up * 0.5f, Vector3.down);
+        if (!Physics.Raycast(ray, out RaycastHit hit, groundRaycastDistance, groundLayer)) return;
+
+        _agent.nextPosition = hit.point + Vector3.up * groundOffset;
+
+        Quaternion targetRotation = Quaternion.FromToRotation(transform.up, hit.normal) * transform.rotation;
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationDamping);
     }
 }
