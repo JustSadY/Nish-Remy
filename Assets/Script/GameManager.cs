@@ -1,11 +1,11 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { private set; get; }
     [SerializeField] private GameObject menuPanel;
+    [SerializeField] private GameObject commingSoonPanel;
 
     private InputSystem_Actions _actions;
     private bool _isGameOver = false;
@@ -53,5 +53,16 @@ public class GameManager : MonoBehaviour
         {
             player.StopCharacter();
         }
+    }
+
+    public void ComingSoon()
+    {
+        commingSoonPanel.SetActive(true);
+        Invoke(nameof(LoadFirstScene), 3f);
+    }
+
+    private void LoadFirstScene()
+    {
+        SceneManager.LoadScene(0);
     }
 }

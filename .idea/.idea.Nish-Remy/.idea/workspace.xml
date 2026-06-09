@@ -2,14 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f583431d-3f8d-4fc5-b830-4a6ef407b547" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Script/Flare.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Nish-Remy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Nish-Remy/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene/NavMesh-NavMesh Surface.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene/NavMesh-NavMesh Surface.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Script/Char/CharacterControl.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Char/CharacterControl.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Script/Char/CharacterEditorMode.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Char/CharacterEditorMode.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Script/Char/CharacterMovement.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Char/CharacterMovement.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Script/Char/CharacterPathDrawer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Char/CharacterPathDrawer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Script/RoadMeshBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/RoadMeshBuilder.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/NavMeshAreas.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/NavMeshAreas.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/GameManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/ShapeRecognizer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/ShapeRecognizer.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Vefects/Free Fire VFX URP/Particles/VFX_Fire_01_Big.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Vefects/Free Fire VFX URP/Particles/VFX_Fire_01_Big.prefab" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,6 +17,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Script/CampFire.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8,
@@ -40,6 +42,7 @@
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
@@ -90,6 +93,10 @@
       <option name="presentableId" value="Default" />
       <updated>1780736828151</updated>
       <workItem from="1780736828152" duration="11136000" />
+      <workItem from="1780831379151" duration="7000" />
+      <workItem from="1780843000708" duration="2412000" />
+      <workItem from="1780911435108" duration="22000" />
+      <workItem from="1781018692502" duration="721000" />
     </task>
     <servers />
   </component>
